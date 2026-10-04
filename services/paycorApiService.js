@@ -5,7 +5,8 @@ const getApiBaseUrl = () => process.env.PAYCOR_API_BASE_URL || "https://apis.pay
 const getSubscriptionKey = () => process.env.PAYCOR_SUBSCRIPTION_KEY;
 const isLegalEntityId = (value) => /^\d+$/.test(String(value || ""));
 
-const paycorRequestConfig = { timeout: 20000 };
+// Time card endpoints (punches/hours) can take 30+ seconds on Paycor's side.
+const paycorRequestConfig = { timeout: 60000 };
 
 function buildHeaders(accessToken) {
   return {
