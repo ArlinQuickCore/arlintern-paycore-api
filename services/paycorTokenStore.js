@@ -41,9 +41,21 @@ let storedTokens = (() => {
   }
 })();
 
+// Set when tokens are exchanged or refreshed during this instance's lifetime.
+// On Vercel (read-only FS), freshly refreshed in-memory tokens must take
+// precedence over the (possibly stale) PAYCOR_ACCESS_TOKEN env var.
+let hasFreshTokens = false;
+
 const paycorTokenStore = {
   loadTokens() {
     if (process.env.VERCEL) {
+      if (hasFreshTokens) {
+        return {
+          ...storedTokens,
+          legalEntityId: getEnvironmentToken("PAYCOR_LEGAL_ENTITY_ID", storedTokens.legalEntityId)
+        };
+      }
+
       return {
         ...storedTokens,
         access_token: getEnvironmentToken("PAYCOR_ACCESS_TOKEN", storedTokens.access_token),
@@ -74,6 +86,7 @@ const paycorTokenStore = {
       ...defaultTokens,
       ...nextTokens
     };
+    hasFreshTokens = true;
 
     if (!process.env.VERCEL) {
       ensureTokenStorage();
