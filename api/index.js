@@ -6,6 +6,7 @@ import employeeRoutes from "../routes/employees.js";
 import departmentRoutes from "../routes/departments.js";
 import positionRoutes from "../routes/positions.js";
 import timeOffRoutes from "../routes/timeOff.js";
+import timeEntryRoutes from "../routes/timeEntries.js";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use("/api/employees", employeeRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/positions", positionRoutes);
 app.use("/api/time-off", timeOffRoutes);
+app.use("/api/time-entries", timeEntryRoutes);
 
 app.get("/oauth/login", paycorAuthController.login);
 app.get("/oauth/callback", paycorAuthController.handleCallback);

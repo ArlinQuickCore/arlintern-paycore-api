@@ -129,6 +129,36 @@ const paycorApiService = {
     );
   },
 
+  getTimeCardPunches(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const suffix = query ? `?${query}` : "";
+    return getResource(`/v1/legalentities/:legalEntityId/punches${suffix}`, "loading time card punches", "punches");
+  },
+
+  getEmployeeTimeCardPunches(employeeId, params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const suffix = query ? `?${query}` : "";
+    return getResource(`/v1/employees/${employeeId}/punches${suffix}`, "loading employee time card punches", "punches");
+  },
+
+  getEmployeePunches(employeeId, params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const suffix = query ? `?${query}` : "";
+    return getResource(`/v1/employees/${employeeId}/employeePunches${suffix}`, "loading employee punches", "punches");
+  },
+
+  getEmployeeHours(employeeId, params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const suffix = query ? `?${query}` : "";
+    return getResource(`/v1/employees/${employeeId}/employeeHours${suffix}`, "loading employee hours", "hours");
+  },
+
+  getMissedPunchRequests(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const suffix = query ? `?${query}` : "";
+    return getResource(`/v1/legalentities/:legalEntityId/missedPunchRequests${suffix}`, "loading missed punch requests", "missedPunchRequests");
+  },
+
   createTimeOffRequest(payload) {
     return createResource("/v1/legalentities/:legalEntityId/timeoffrequests", payload, "creating time-off request");
   }
